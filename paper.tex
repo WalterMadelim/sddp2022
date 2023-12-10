@@ -1,0 +1,672 @@
+\documentclass[journal,twoside,web]{ieeecolor}
+\usepackage{generic}
+% \usepackage{cite}
+\makeatletter
+\let\NAT@parse\undefined
+\makeatother
+\usepackage[colorlinks]{hyperref}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\markboth{\journalname, VOL. XX, NO. XX, XXXX}
+{Author \MakeLowercase{\textit{et al.}}: Title}
+\begin{document}
+\title{Preparation of Papers for IEEE Trans on Industrial Informatics (February 2022)}
+% \author{XXX, and Third C. Author, Jr., \IEEEmembership{Member, IEEE}
+\author{XXX
+\thanks{Manuscript submitted October 23,2022.\textit{(Corresponding author: XXX.)}}
+\thanks{XXX is with XXX (e-mail: XXX).}}
+
+% \IEEEpeerreviewmaketitle
+\maketitle
+
+\begin{abstract}
+These instructions give you guidelines for preparing papers for 
+IEEE Transactions and Journals. Use this document as a template if you are 
+using \LaTeX. 
+\end{abstract}
+
+\begin{IEEEkeywords}
+MSILP, smart plant.
+\end{IEEEkeywords}
+
+\section{Introduction}\label{sec:introduction}
+\IEEEPARstart{I}{ndividuals} who work and live in a smart city \cite{smartcity} are enjoying services provided by different entities, e.g., electric power, heat energy and water resource from respective companies.
+Conventionally, these are considered to be different systems and have been operated independently.
+However, up-to-date ideas concerning environmental pollution mitigation, higher efficiency of energy utilization and flexibility of power delivery have contributed to the concept of multienergy networks.
+Due to the coupling across different energy sectors, the overall energy efficiency is improved and various forms of renewable energy could be accommodated to a greater extend \cite{prodIErev}.
+Moreover, the resilience of multicarrier system under extreme events is improved \cite{E1}.
+From the perspective of socioeconomic, it is advantageous to consider the coordination between power and water networks \cite{E8_OWPF}.
+
+% The aforementioned versatility of the coupled system is the prime motivation of this paper.
+
+% \begin{tabular}{l} \\ \end{tabular}
+\begin{table}[htbp]\scriptsize
+            \centering
+ \caption{Parameters and decision variables of the model}\label{ptable}
+            \begin{tabular}{cc}
+            \hline
+            Parameters & \begin{tabular}{l} In Table \ref{ptable}: subscript '$t$' means 'at time $t$',  \\which is not explicitly told for simplicity \end{tabular} \\
+            \hline
+            $P^{CHP,A(B,C,D)}_u$ &  \begin{tabular}{l} Active power of extreme point A(or B,C,D)\\of the $u$th CHP's operating region \end{tabular} \\
+            $H^{CHP,A(B,C,D)}_u$ &  \begin{tabular}{l} Heat power of extreme point A(or B,C,D)\\of the $u$th CHP's operating region \end{tabular} \\
+            $BM$ & Big-M coefficient\\
+            $C^{CHP,st}_u$/$C^{CHP,sh}_u$ & start-up/shut-down cost of the $u$th CHP\\
+            $\eta_u^{CHP,P}$/$\eta_u^{CHP,H}$ & Electrical/heating efficiency of the $u$th CHP\\
+            $\beta$ & Conversion factor of natural gas \\
+            $P^{G,n}_t$/$P^{L,n}_t$ & \begin{tabular}{l}Active power injected by power source \\or consumed by load at bus $n$ \end{tabular} \\
+            $Q^{L,n}_t$ & Reactive power consumed by load at bus $n$\\
+            $\Delta t$ & Duration of time interval\\
+            $T^a_t$ & Ambient temperature \\
+            $N^c$/$N^e$ & Number of compression/expansion stages \\
+            $V^0$/$\Delta V^{max}$ & \begin{tabular}{l}Rated voltage (1 p.u.) \\/Maximum voltage deviation (5\%) \end{tabular}\\
+            $r^b$/$x^b$ & resistance/reactance of branch $b$\\
+            $P^{b,max}$/$Q^{b,max}$ & Maximum active/reactive power flow of branch $b$ \\
+            $H^L_{n,t}$ & Heat power load in DHN at node $n$  \\
+            $c_p$/$g$ & Specific heat of fluid/gravitational acceleration \\
+            $\dot m_n$/$\dot m_b$ & Mass flow rate of fluid at node $n$/in pipe $b$ \\
+            $P^{cir}$/$Q^{cir}$ & Active/reactive power consumed by circulation pump \\
+            $\dot m^{cir}$/$h^{cir}$ & Mass flow rate/head gain of circulation pump \\
+            $\eta^{cir}$/$\text{PF}^{cir}$ & Efficiency/power factor of the circulation pump \\
+            $\text{COP}^{HP}$ & Coefficient of performance of heat pump\\
+            $\eta^{TES}_{loss}$/$\eta^{TES}_{chg}$/$\eta^{TES}_{dis}$ & Energy loss/charging/discharging efficiency of TES\\
+            $\lambda_b$/$l_b$ & Thermal conductivity/length of pipe $b$\\
+            $q^L_{j,t}$ & Water demand at junction $j$ \\
+            $h_j^{min}$ & Minimum allowable water head at junction $j$\\
+            $A^{TK}$ & Cross-sectional area of the tank\\
+            $K_b$ & Head loss coefficient of pipe $b$ \\
+            $\text{PF}^{PM}_b$ & power factor of the pump at branch $b$ \\
+            \hline
+            Variables ($\in \mathbb{R}^+$)\\
+            \hline
+            $P^{CHP}_{t,u}$/$Q^{CHP}_{t,u}$ & Active/reactive power output of the $u$th CHP \\
+            $H^{CHP}_{t,u}$ & Heat power output of the $u$th CHP \\
+            $C^{CHP,st}_{t,u}$/$C^{CHP,sh}_{t,u}$ & start-up/shut-down cost of the $u$th CHP \\
+            $F^{CHP}_{t,u}$ & natural gas flow rate of the $u$th CHP \\
+            $M^{ATK}_t$/$M^{HTK}_t$ & Mass of air/oil stored in the ATK/HTK of CAES \\
+            $\bar m^{ac}_t$/$\bar m^{oc}_t$ & Air/oil mass flow rate at charging side of CAES \\
+            $\bar m^{ad}_t$/$\bar m^{od}_t$ & Air/oil mass flow rate at discharging side of CAES \\
+            $\bar m^{oh}_t$ & Oil mass flow rate at heating side of CAES\\
+            $\bar P^{CS,c}_t$/$\bar P^{CS,d}_t$ &  \begin{tabular}{l}Charging/discharging power of CAES \\when at charging/discharging mode \end{tabular}  \\
+            $\bar H^{CS}_t$ & Heating power of CAES when at heating mode  \\
+            $\dot m^{ac}_t$/$\dot m^{oc}_t$/$P^{CS,c}_t$ & auxiliary variables, details in (\ref{eq17}) \\
+            $\dot m^{ad}_t$/$\dot m^{od}_t$/$P^{CS,d}_t$ & auxiliary variables, details in (\ref{eq18}) \\
+            $\dot m^{oh}_t$/$H^{CS}_t$ & auxiliary variables, details in (\ref{eq19}) \\
+            $P^b_t$/$Q^b_t$ & Active/reactive power flow of branch $b$ \\
+            $P^{b,l}_t$/$Q^{b,l}_t$ &  Active/reactive power flow of the lateral branch of $b$  \\
+            $V^n_t$ & Voltage at bus $n$ \\
+            $H^G_{n,t}$ & Heat power offered at heat source $n$ in DHN  \\
+            $T^s_{n,t}$/$T^r_{n,t}$ & supply/return temperature at node $n$  in DHN \\
+            $P_t^{HP}$/$H_t^{HP}$ & Power consumed/heat power generated by HP \\
+            $W^{TES}_t$ & Heat energy stored in TES \\
+            $H^{TES,c}_t$/$H^{TES,d}_t$ & Charging/discharging power of TES \\
+            $T^{up}_{b,t}$/$T^{dw}_{b,t}$ & Up/down-stream end temperature of pipe $b$  \\
+            $T^o_{n,t}$ & Temperature of fluid that leaves node $n$ \\
+            $q_{b,t}$ & Volumetric flow rate of water in branch $b$  \\
+            $h_{n,t}$/$h_{j,t}$ & Water head at node $n$/junction $j$  \\
+            $h^{TK,i}_t$/$h^{TK,o}_t$ & up/down-stream end head of tank  \\
+            $h^{RDV}_t$ & Head loss of pressure-reducing valve at time\\
+            $P^{PM}_{b,t}$/$Q^{PM}_{b,t}$ &  \begin{tabular}{l} Active/reactive power consumed\\by the pump on branch $b$ \end{tabular}  \\
+            \hline
+            Variables ($\in \{0,1\}$)\\
+            \hline
+            $\mu^{CHP}_{t,u}$ & 1: the $u$th CHP is 'on'  0: the $u$th CHP is 'off'  \\
+            $\mu^{CS,c}_t$/$\mu^{CS,d}_t$/$\mu^{CS,h}_t$ & \begin{tabular}{l}1: the CAES is at charging/discharing \\/heating mode 0: is not \end{tabular} \\
+            \hline
+            \end{tabular}
+\end{table}
+Parameters and decision variables of the model proposed in this paper are listed in Table \ref{ptable}. 
+\section{Models}
+\subsection{CHP Units}
+The operating region of a CHP unit is typically modeled as a polyhedron \cite{chp2015}.
+Four extreme points A,B,C,D are considered here, with edge AB denoting the maximum limit of power output (\ref{chpab}), CD the minimum limit of steam injection (\ref{chpcd}) and BC the maximum limit of fuel injection (\ref{chpbc}).
+The P-Q output is restricted by the apparent power, often linearized by a hexagon \cite{E1}.
+Negative outputs are not considered, thus these constraints are further reduced to (\ref{hex1}) and (\ref{hex2}).
+Active and heat power output are bounded as shown in (\ref{pbnd}) and (\ref{hbnd}). 
+Unit start-up and shut-down costs are expressed as (\ref{chpst}) and (\ref{chpsh}).
+Note that when $t=1$, i.e., the 1st decision stage, $\mu^{CHP}_{t-1,u}$ is an initial state rather than a decision variable.
+Also note that it is alright to use '$\ge$' rather than '$=$' in (\ref{chpst}) and (\ref{chpsh}) since $C^{CHP,st}_{t,u}$ and $C^{CHP,sh}_{t,u}$ are minimized directly, thus these constraints could be reduced to simple linear constraints.
+The fuel consumption is proportional to the active and heat power output of the CHP unit (\ref{fuel}).
+
+\begin{equation}\label{chpab}\footnotesize
+        P^{CHP}_{t,u}-P^{CHP,A}_u\le \frac{P^{CHP,A}_u-P^{CHP,B}_u}{H^{CHP,A}_u-H^{CHP,B}_u}(H^{CHP}_{t,u}-H^{CHP,A}_u)
+\end{equation}
+\begin{equation}\footnotesize\label{chpcd}\begin{split}
+        P^{CHP}_{t,u}-P^{CHP,D}_u -\frac{P^{CHP,D}_u-P^{CHP,C}_u}{H^{CHP,D}_u-H^{CHP,C}_u}(H^{CHP}_{t,u}-H^{CHP,D}_u)\\ \ge -BM(1-\mu^{CHP}_{t,u})
+\end{split}\end{equation}
+\begin{equation}\footnotesize\label{chpbc}\begin{split}
+        P^{CHP}_{t,u}-P^{CHP,B}_u -\frac{P^{CHP,C}_u-P^{CHP,B}_u}{H^{CHP,C}_u-H^{CHP,B}_u}(H^{CHP}_{t,u}-H^{CHP,B}_u)\\ \ge -BM(1-\mu^{CHP}_{t,u})
+\end{split}\end{equation}
+\begin{equation}\label{hex1}
+    Q^{CHP}_{t,u} + \sqrt{3}(P^{CHP}_{t,u}-P^{CHP,A}_u) \le 0
+\end{equation}
+\begin{equation}\label{hex2}
+    0\le Q^{CHP}_{t,u}\le \frac{\sqrt{3}}{2}P^{CHP,A}_u\mu^{CHP}_{t,u}
+\end{equation}
+\begin{equation}\label{pbnd}
+    0 \le P^{CHP}_{t,u} \le P^{CHP,A}_u\mu^{CHP}_{t,u}
+\end{equation}
+\begin{equation}\label{hbnd}
+    0 \le H^{CHP}_{t,u} \le H^{CHP,B}_u\mu^{CHP}_{t,u}
+\end{equation}
+\begin{equation}\label{chpst}
+    C^{CHP,st}_{t,u}=\max \{0,C^{CHP,st}_u(\mu^{CHP}_{t,u}-\mu^{CHP}_{t-1,u})\} 
+\end{equation}
+\begin{equation}\label{chpsh}
+    C^{CHP,sh}_{t,u}=\max \{0,C^{CHP,sh}_u(\mu^{CHP}_{t-1,u}-\mu^{CHP}_{t,u})\} 
+\end{equation}
+\begin{equation}\label{fuel}
+    P^{CHP}_{t,u}/\eta^{CHP,P}_u+H^{CHP}_{t,u}/\eta^{CHP,H}_u=\beta F^{CHP}_{t,u}
+\end{equation}
+\subsection{CAES}
+The Dual-SOC model for CAES dispatch was proposed in \cite{AACAES}, where electricity are stored in the form of compressed air in the air tank (ATK), and heat energy are stored in the hot oil tank (HTK).
+The air mass in the ATK changes according to (\ref{atk}) and the oil mass in HTK in (\ref{htk}).
+Binary variables $\mu^{CS,c}_t$,$\mu^{CS,d}_t$,$\mu^{CS,h}_t$ are introduced to indicate whether the CAES is working at 'charging', 'discharging', 'heating' mode at time $t$.
+The restriction (\ref{ncd}) means that charging and discharging simultaneously is not allowed.
+When working at 'charging' mode (i.e. $\mu^{CS,c}_t=1$), the charging power is a function of the air, oil mass flow rate at charging side and ambient temperature (\ref{pcsc}).
+When $\mu^{CS,d}_t=1$, the discharging power is a function of the air and oil mass flow rate at discharging side (\ref{pcsd}).
+When $\mu^{CS,h}_t=1$, the heat power is a function of the oil mass flow rate at heating side (\ref{heatingCAES}).
+However, when some $\mu^{CS,x}_t=0, x \in \{c,d,h\}$, the respective power and mass flows are actually set to 0.
+Thus, a new group of variables (LHS of (\ref{eq17})-(\ref{eq19})) are introduced to represent the actual working condition.
+Details, especially the concrete form of (\ref{pcsc})-(\ref{heatingCAES}), could be found in \cite{AACAES}.
+\begin{equation}\label{atk}
+	M^{ATK}_t = M^{ATK}_{t-1} + \Delta t(\dot m^{ac}_t-\dot m^{ad}_t)
+\end{equation}
+\begin{equation}\label{htk}
+	M^{HTK}_t = M^{HTK}_{t-1} + \Delta t(N^c\dot m^{oc}_t-N^e\dot m^{od}_t-\dot m^{oh}_t)
+\end{equation}
+\begin{equation}\label{ncd}
+	\mu^{CS,c}_t+\mu^{CS,d}_t \le 1
+\end{equation}
+\begin{equation}\label{pcsc}
+    \bar P^{CS,c}_t = f^{CS,Pc}(\bar m^{ac}_t,\bar m^{oc}_t,T^{a}_t),(\bar m^{ac}_t,\bar m^{oc}_t)\in \Omega_1(T^{a}_t)
+\end{equation}
+\begin{equation}\label{pcsd}
+    \bar P^{CS,d}_t = f^{CS,Pd}(\bar m^{ad}_t,\bar m^{od}_t),(\bar m^{ad}_t,\bar m^{od}_t)\in \Omega_2
+\end{equation}
+\begin{equation}\label{heatingCAES}
+    \bar H^{CS}_t = f^{CS,H}(\bar m^{oh}_t),(\bar m^{oh}_t)\in \Omega_3
+\end{equation}
+\begin{equation}\label{eq17}
+     [P^{CS,c}_t,\dot m^{ac}_t,\dot m^{oc}_t]= \mu^{CS,c}_t [\bar P^{CS,c}_t,\bar m^{ac}_t,\bar m^{oc}_t]
+\end{equation}
+\begin{equation}\label{eq18}
+	 [P^{CS,d}_t,\dot m^{ad}_t,\dot m^{od}_t]= \mu^{CS,d}_t [\bar P^{CS,d}_t,\bar m^{ad}_t,\bar m^{od}_t]
+\end{equation}
+\begin{equation}\label{eq19}
+    [H^{CS}_t,\dot m^{oh}_t] = \mu^{CS,h}_t [\bar H^{CS}_t,\bar m^{oh}_t] 
+\end{equation}
+
+
+
+
+\subsection{PDN}
+A widely adopted model for the PDN is the linearized Dist-Flow equations \cite{LinDistFlow}\cite{IETPDN}.
+Active and reactive power flow balance at bus $n$ are expressed as (\ref{Pbalanbus}),(\ref{Qbalanbus}), where the set of branches connected to bus $n$ is denoted by $B_n$.
+Voltage drop of the branch $b$ is modeled as (\ref{voldrop}), where $b\in B_{n,n+1}$ indicates that power flows from the bus $n$ to bus $n+1$ through branch $b$.
+Maximum allowable bus voltage deviation is given in (\ref{Vdev}).
+Branch flow is restricted by the transmission line capacity as shown in (\ref{Pbmax}),(\ref{Qbmax}).
+Only loads with lagging power factor are considered in this paper.
+And the direction of power flows are assumed unchanged during the scheduling period.
+\begin{equation}\label{Pbalanbus}
+    P^{b+1}_t = P^{b}_t - P^{b+1,l}_t + P^{G,n}_t - P^{L,n}_t, b\in B_n
+\end{equation}
+\begin{equation}\label{Qbalanbus}
+    Q^{b+1}_t = Q^{b}_t - Q^{b+1,l}_t - Q^{L,n}_t, b\in B_n
+\end{equation}
+\begin{equation}\label{voldrop}
+    V^{n+1}_t = V^{n}_t - (r^bP^b_t+x^bQ^b_t)/V^0, b\in B_{n,n+1}
+\end{equation}
+\begin{equation}\label{Vdev}
+    1-\Delta V^{max}\le V^n_t \le 1 + \Delta V^{max}
+\end{equation}
+\begin{equation}\label{Pbmax}
+    0\le P^b_t \le P^{b,max}
+\end{equation}
+\begin{equation}\label{Qbmax}
+    0\le Q^b_t \le Q^{b,max}
+\end{equation}
+\subsection{DHN}
+The constant-flow assumption \cite{dhnmdotfix} is adopted in the DHN model.
+Thus, constraints associated with hydraulic conditions, e.g., continuity of mass flow and pressure drop relations \cite{dhnModel}, are not listed here.
+Heat exchange relation is expressed as (\ref{heatExg}) generally, e.g., (i) heat power generated by heat sources (e.g., CHP, CAES and HP, denoted by $H^{G}_{n,t}$): $T^r_{n,t}$/$T^s_{n,t}$ is the temperature of the fluid in return/supply network that enters/leaves the heat source node; (ii) heat power consumed at a load node ($H^{L}_{n,t}$): $T^r_{n,t}$/$T^s_{n,t}$ is the temperature of the fluid in return/supply network that leaves/enters the load node.
+A motor-driven circulation pump is always installed to keep a normal flow pattern in DHN \cite{Dissert}, with active power consumed expressed in (\ref{cP_act}) and reactive power in (\ref{cP_rea}).
+Note that in the constant-flow model, hydraulic characteristics had been well designed, thus none of the terms in (\ref{cP_act})(\ref{cP_rea}) are decision variables.
+
+Heat pumps and thermal energy storage units \cite{dhnModel} are involved.
+Energy conversion of the HP is modeled by (\ref{ecohp}).
+Heat energy stored in TES over time is modeled by (\ref{TESdyna}).
+Temperature loss along a heat transmission pipeline, no matter in the supply or return network, is expressed in (\ref{hlahtp}).
+There are 2 possibilities for a node $n$ in DHN.
+(i) There are no less than 2 pipes $b$ that contains fluid entering $n$ ($n \in$ confluence nodes). Then we need a summation over these $b$s, i.e., LHS of (\ref{inConflu}), according to the conservation of energy.
+(ii) Other wise, there would be no temperature change at $n$ as (\ref{ninConflu}) indicates.
+After deriving $T^o_{n,t}$ in either (\ref{inConflu}) or (\ref{ninConflu}), it is assigned to the upstream-end temperature of the following pipes (\ref{followingpipe}).
+\begin{equation}\label{heatExg}
+    H^{G/L}_{n,t} = c_p\dot m_n(T^s_{n,t}-T^r_{n,t})
+\end{equation}
+\begin{equation}\label{cP_act}
+    P^{cir} = \dot m^{cir}gh^{cir}/\eta^{cir}
+\end{equation}
+\begin{equation}\label{cP_rea}
+    Q^{cir} = \tan (\arccos \text{PF}^{cir}) P^{cir}
+\end{equation}
+\begin{equation}\label{ecohp}
+    H^{HP}_t = \text{COP}^{HP} P^{HP}_t
+\end{equation}
+\begin{equation}\label{TESdyna}\footnotesize
+    W^{TES}_{t+1}=(1-\eta^{TES}_{loss})W^{TES}_t+(\eta^{TES}_{chg}H^{TES,c}_t-H^{TES,d}_t/\eta^{TES}_{dis})\Delta t
+\end{equation}
+\begin{equation}\label{hlahtp}
+    T^{dw}_{b,t}=T^a_t+(T^{up}_{b,t}-T^a_t)\exp(-\frac{\lambda_bl_b}{c_p\dot m_b})
+\end{equation}
+\begin{equation}\label{inConflu}
+    \sum_{b:b\rightarrow n} \dot m_bT^{dw}_{b,t}  = T^o_{n,t} \sum_{b:n\rightarrow b} \dot m_b, n \in \text{confluence nodes}
+\end{equation}
+\begin{equation}\label{ninConflu}
+    T^{dw}_{b,t} = T^o_{n,t},\text{unique } b:b\rightarrow n ,n \notin \text{confluence nodes}
+\end{equation}
+\begin{equation}\label{followingpipe}
+    T^{up}_{b,t}=T^o_{n,t}, \forall b: n\rightarrow b
+\end{equation}
+\subsection{WSN}
+A typical municipal WSN \cite{waterNet} is introduced here.
+There are 3 types of 'nodes' in the WSN: reservoirs (RES), junctions and tanks (TK).
+Reference head in the WSN is set at the reservoirs (i.e. $h^{RES}=0$), where water resource is deemed infinite.
+Water flow at any junction $j$ in WSN is balanced at any time $t$ (\ref{Wnbalance}).
+Water head at junction $j$ is bounded below by its minimum-allowable value (\ref{wnhmin}).
+A TK in the WSN is used to store excess water that consumers do not need at the time.
+Heads at two ports, i.e., $h^{TK,o}_t$ and $h^{TK,i}_t$, are both introduced for a tank.
+$h^{TK,i}_t$ is used in its upstream hydraulic calculations, while $h^{TK,o}_t$ in downstream.
+$h^{TK,i}_t$ is adjustable, so that the flow rate of water entering the tank can be regulated, while $h^{TK,o}_t$ is changed according to (\ref{wtank}).
+The head variation between two adjacent nodes is related to the branch that bridges them (\ref{pplnd}), where $\Delta h_t(b)$ depends on the 3 types of $b$:
+(i) Motor-driven variable-speed pumps (PM): used to provide pressure difference so that water could be delivered to consumers.
+The hydraulic characteristic, affected by the pump speed $w$ is shown in (\ref{bispump}).
+(ii) Pipes (PI). The head loss of a pipe is widely modeled as a quadratic function (\ref{bispipe}).
+(iii) Pressure-reducing valves (RDV) could be installed on pipes to change their hydraulic characteristics, so that the overall network characteristic could be matched (in a better way) with those of pumps.
+We denote the adjustable pressure drop of a RDV by $h^{RDV}_t$ and the total pressure drop is shown in (\ref{bisrdvpipe}).
+Apart from the h-q characteristic, the P-q characteristic of a PM is also affected by the pump speed $w$ (\ref{ppc}).
+The reactive power consumed by a pump is expressed as (\ref{PM_rea}).
+\begin{equation}\label{Wnbalance}
+    \sum_{b:b\rightarrow j} q_{b,t}-\sum_{b:j\rightarrow b} q_{b,t}=q^L_{j,t}, j = \text{junction}
+\end{equation}
+\begin{equation}\label{wnhmin}
+    h_{j,t} \ge h_j^{min}, j = \text{junction}
+\end{equation}
+\begin{equation}\label{wtank}
+    h^{TK,o}_{t}=h^{TK,o}_{t-1}+\frac{\Delta t}{A^{TK}}(\sum_{b:b\rightarrow TK} q_{b,t} - \sum_{b:TK\rightarrow b} q_{b,t})
+\end{equation}
+\begin{equation}\label{pplnd}
+    h_{n,t} - h_{m,t}= \Delta h_t(b),n\overset{b}{\rightarrow}m, \forall b
+\end{equation}
+\begin{equation}\label{bispump}
+    \Delta h_t(b) = -f^{PM,q2h}_w(q_{b,t}),b = \text{PM}
+\end{equation}
+\begin{equation}\label{bispipe}
+    \Delta h_t(b) = K_b(q_{b,t})^2,b = \text{PI}
+\end{equation}
+\begin{equation}\label{bisrdvpipe}
+    \Delta h_t(b) = \Delta h_t(\text{PI}) + h^{RDV}_t,b = \text{PI}+\text{RDV}
+\end{equation}
+\begin{equation}\label{ppc}
+    P^{PM}_{b,t} = f^{PM,q2P}_w(q_{b,t}), b = \text{PM}
+\end{equation}
+\begin{equation}\label{PM_rea}
+    Q^{PM}_{b,t} = \tan (\arccos \text{PF}^{PM}_b) P^{PM}_{b,t}, b = \text{PM}
+\end{equation}
+
+\section{Model Linearization}
+Although the 8 constrains appeared in (\ref{eq17})-(\ref{eq19}) are not readily linear, they are easy to be reformulated due to the discreteness of $\mu$.
+Besides, you can even leave them unchanged when programming with MILP solvers such as Gurobi.
+\subsection{The Piecewise Linearization (PWL) Method}
+Two classes of method have been introduced to deal with nonlinearity in optimization problems: one based on the Taylor expansion \cite{taylor} (denoted by 'DER' since derivatives are used), the other based on the convex combination of the adjacent points (denoted by 'CONV') \cite{bet_pwl}.
+An intuitive comparison of the 2 methods are conducted in Fig. \ref{der_conv}, where the black curve needed to be linearized is the polynomial function (denoted by $p(x)$ temporarily) comes from one constraint of the feasible region of CAES operation. The x-axis represents $\bar m^{od}_t$, and y-axis represents the lower bound of $\bar m^{ad}_t$, i.e., the constraint '$\bar m^{ad}_t \ge p(\bar m^{od}_t)$' should not be violated under discharging mode (details in \cite{AACAES}).
+As indicated in Fig. \ref{der_conv}, the feasible region of $x$ are divided into 4 segments by the 5 points $x_i,i\in \{0,1,2,3,4\}$.
+When '$y=y_a$' is imposed (the horizontal dashed line in Case a), the 3 outcomes indicated by the vertical dashed lines from left to right in order are: (i) PWL result by the DER method, (ii) the precise result and (iii) PWL result by the CONV method. 
+It seems that in this case, (i) and (iii) are both good approximations of (ii).
+Now look at Case b: consider the optimization problem '$\min x: y=p(x)=y_b$'.
+There are 4 vertical dashed lines in this case, the 3rd of which being the precise solution and the 4th being the PWL result by the CONV method.
+It seems that CONV still behaves well.
+However, the 1st and 2nd are both feasible points of PWL results by the DER method and the 1st gives better value ($\hat{x} \approx 0.76$), which is far from the precise result ($x\approx0.91$).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height =1.1in]{g/DER_CONV.pdf}
+    \caption{Comparison of the DER-based (red) and CONV-based (blue) PWL methods }
+    \label{der_conv}
+\end{figure}
+\begin{algorithm}[htbp]\footnotesize
+\caption{$y=f(x)\overset{PWL}{\rightarrow}y=f^{PWL}(x)$}\label{pwl1d} 
+\begin{algorithmic}[1]
+\REQUIRE Array of representative $x$s: [$x_0$,...,$x_N$], and $f$
+\STATE{Calculate [$y_0$,...,$y_N$] by the precise $f$}
+\STATE{m.add01Variables($\mu_i,i = 1,...,N$) // m is an optimization model, $\mu_i$ is the indicator of the $i$th subregion}
+\STATE{m.addVariable($l$,LB=0,UB=1) // $l$ is the coefficient of convex combination.}\label{line3}
+\STATE{m.addConstraint($\sum_{i=1}^N \mu_i=1$) // only 1 valid subregion}
+\FOR{$i$ in $[1,...,N]$} 
+\IF{$\mu_i = 1$}\label{line6}
+\STATE{m.addConstraint($y = ly_{i-1}+(1-l)y_i$)}
+\STATE{m.addConstraint($x = lx_{i-1}+(1-l)x_i$)}
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}[htbp]\footnotesize
+\caption{$z=f(x,y)\overset{PWL}{\rightarrow}z=f^{PWL}(x,y)$}\label{pwl2d} 
+\begin{algorithmic}[1]
+\REQUIRE Array of representative $x$s: [$x_0$,...,$x_N$], $y$s: [$y_0$,...,$y_N$], and $f$
+\STATE{Calculate [$z_{i,j}$,$i,j$ in $[0,...,N]$] by the precise $f$}
+\STATE{m.add01Variables($\mu^x_i,i = 1,...,N$, $\mu^y_j,j = 1,...,N$)}
+\STATE{m.addVariables($l^0,l^1,l^2,l^3$,LB=0,UB=1)}
+\STATE{m.addConstraints($\sum_{j=0}^3 l^j=1$)}
+\STATE{m.addConstraints($\sum_{i=1}^N \mu^x_i=1$,$\sum_{j=1}^N \mu^y_j=1$)}
+\FOR{$i$ in $[1,...,N]$}
+\IF{$\mu^x_i = 1$}\label{line7}
+\STATE{m.addConstraint($x = (l^0+l^2)x_{i-1}+(l^1+l^3)x_{i}$)}
+\ENDIF
+\IF{$\mu^y_i = 1$}\label{line10}
+\STATE{m.addConstraint($y = (l^0+l^1)y_{i-1}+(l^2+l^3)y_{i}$)}
+\ENDIF
+\ENDFOR
+\FOR{$i$ in $[1,...,N]$}
+\FOR{$j$ in $[1,...,N]$}
+\IF{$\mu^x_i = 1$ and $\mu^y_j = 1$}\label{line16}
+\STATE{m.addConstraint($z = l^0z_{i-1,j-1}+l^1z_{i,j-1}+l^2z_{i-1,j}+l^3z_{i,j}$)}
+\ENDIF
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+In summary: (i) The PWL results given by the DER method may not be unique ($\hat x$ can lies either on $[x_0,x_1]$ or $[x_1,x_2]$, shown in Case b), which possibly cause large deviation from the precise result. (ii) The DER method requires the function being approximated to be differentiable, which is not realistic for the data-sheet-based models (e.g., the pumps in WSN, discussed later).
+
+Thus, the CONV-PWL method is applied in this paper.
+PWL for 1-dim function (curve) is listed as Algorithm \ref{pwl1d}.
+PWL for 2-dim function (surface) is listed as Algorithm \ref{pwl2d}.
+
+\textit{Remark}:(i) Line \ref{line6} in Algorithm \ref{pwl1d}, Line \ref{line7},\ref{line10},\ref{line16} in Algorithm \ref{pwl2d} contain 'indicator constraints', Line \ref{line16} in Algorithm \ref{pwl2d} contain 'and constraints'. 
+Though not readily simple linear, modern solvers provide APIs for these types of constraints, still in the scope of MILP. 
+(ii) For the 2-dim function PWL, $(x,y)$ is a convex combination of the 4 extreme points of a rectangle.
+According to the Caratheodory's theorem, the point $(x,y)$ can actually be represented as a convex combination of $\le 3$ points (instead of the original 4). 
+But this does not bother, since the fundamental LP solver in most MILP solvers is simplex-based, generating 'basic' solutions.
+This implies that if $(x,y)$ could be represented as a non-degenerate convex combination of $N$ points, the solver would not output a non-degenerate combination of more than $N$ points.
+(iii) There are 2 nonlinearities (from the perspective of decision variables) in CAES model, $f^{CS,Pd}$ and $\Omega_2$, both in (\ref{pcsd}), with the latter already mentioned in the context of Fig. \ref{der_conv}.
+And the former can be linearized with Algorithm \ref{pwl2d}.
+(iv) There are also 2 nonlinearities in the WSN model, pipe (\ref{bispipe}) and pump (\ref{bispump})(\ref{ppc}).
+For the pipe, volumetric flow rate $q$ is unbounded unbounded above, which can be treated: 1, artificially impose an upper bound; 2, introduce one more variable $l^{end}$ (Line \ref{line3}, Algorithm \ref{pwl1d}) whose UB is relaxed to $\infty$, and the meaning of the expression '$l^{end}x_{N}+(1-l^{end}x_{N-1})$' is changed to a ray (same expression for $y$).
+
+
+
+
+
+% \begin{figure}[htbp]
+% \begin{subfigure}{0.3\textwidth}
+% \includegraphics[width=2.555in]{g/expPump.pdf}
+% \caption{Computing time constituents of the Newton's iteration using GPU}
+% \end{subfigure}
+% \begin{subfigure}{0.3\textwidth}
+% \includegraphics[width=2.555in]{g/expPump.pdf}
+% \caption{Comparison between data copying time and GPU computing time}
+% \end{subfigure}
+% \centering
+% \caption{Time comparisons}
+% \end{figure}
+
+
+\subsection{The Linear Variable-speed Pump Model}\label{mypmsec}
+Indeed, a pump used in the WSN is not an ideal component.
+What engineers owned are experimental data-sheets provided by manufactures \cite{pumpModel}.
+As mentioned earlier, modeling of the hydraulic (\ref{bispump}) and power (\ref{ppc}) characteristics is the focus.
+One way is to model the head gain as a polynomial function of flow rate and pump speed \cite{waterNet}.
+Although being concise, the nonlinearity would cause inconvenience for the optimization process.
+Another way is to model a constant-speed pump, thus the head gain could be represented as a linear function of flow rate \cite{linpump}.
+This model, however, could be over-simplified compared with the real data.
+And the constant-speed restriction made the operation of WSN less flexible.
+
+Inspired by these methods, in this paper, the pump speed is firstly discretized and indicated by an integer variable.
+Then, PWL functions are constructed directly based on the data sheet under each speed level (using Algorithm \ref{pwl1d}).
+As an example, a model is built based on data from \cite{pumpModel}, where the data under $w=1525$ and $1182$rpm are listed.
+The original curve and the 2-segment PWL curves are compared in Fig. \ref{pump2model}.
+It is evident that the PWL method gives a reasonable approximation under both speed levels.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height =1.1in]{g/pumpModel.pdf}
+    \caption{Comparison of the original data-set curves (L) and the PWL curves (R): In each subplot, the 2 'decreasing' solid curves are H-q curves, the 2 'increasing' dashed curves are P-q curves, the upper red curves are the outcome under a higher pump speed, and the lower green under a lower pump speed.}
+    \label{pump2model}
+\end{figure}
+
+\section{Case Study}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height =1.2in]{g/smallCasePic.pdf}
+    \caption{small System model graph}
+    \label{smallsysgraph}
+\end{figure}
+
+\begin{table}[htbp]
+\caption{Pipes in the WSN}\label{wNettable}
+\centering
+\begin{tabular}{c|cccccc}
+\hline
+Pipes & \textit{0} & \textit{1} & \textit{2} & \textit{3} & \textit{4} & \textit{5} \\
+\hline
+length (km) &3.7 & 0.77 & 0.521 & 0.521 & 0.521 & 0.77 \\
+diameter (m) & 0.3 & 0.25 & 0.25  & 0.25  & 0.25  & 0.25 \\
+\hline
+\end{tabular}
+\end{table}
+
+Firstly, a small case is considered, where we consider only a scenario, and 4-stage problem where $\Delta t=6h$.
+
+\textit{Model Settings}: (i) WSN: head loss coefficient of pipes $K_b=1.016lD^{-5}$ [m/$({\text{m}}^3/\text{s})^2$], where the numeral values $l$ and $D$ are listed in Table \ref{wNettable}. Parameters of Pump p0/p1 are given in Fig. \ref{pump2model} (R). 
+For the tank, $A^{TK} = 160\text{m}^2$, water level is restricted: $h_t^{TK,o}\le70\text{m}$.
+(ii) CAES: settings are the same as \cite{AACAES}, except that the base value of $\bar m^{ac}_t$, $\bar m^{oc}_t$, $\bar m^{ad}_t$, $\bar m^{od}_t$, $\bar m^{oh}_t$ are changed to 445, 193, 435, 189, 378 g/s, respectively and the base value of $\bar P^{CS,c}_t$, $\bar P^{CS,d}_t$, $\bar H^{CS}_t$ are changed to 0.5, 0.5, 0.25 MW respectively. 
+(iii) CHPs: 4 identical units are considered. For each unit:  $P^{CHP,A/B/C/D}_u$ are 0.4, 0.25, 0.08, 0.17 and $H^{CHP,A/B/C/D}_u$ are 0, 0.12, 0.05, 0 respectively (MW). 
+$\eta_u^{CHP,P}$, $\eta_u^{CHP,H}$, $\beta$ are 0.015MWh/kg, 0.45, 0.5 respectively.
+$C^{CHP,st}_u$, $C^{CHP,sh}_u$ are both 1044yuan.
+(iv) 
+
+\subsection{Performance of The Pump in WSN}
+A case is firstly designed to illustrate the advantages of the pump model proposed in \ref{mypmsec}, as shown in Fig. \ref{smallsysgraph}.
+
+Suppose that pipe \textit{1},\textit{2} and pump p1 mulfunction together and the water delivery path becomes: Reservoir $\to$ p0 $\to$ pipe \textit{0} $\to$ junction \underline{1} (Fig. \ref{smallsysgraph}).
+Styles and meanings of the curves for the pump (p0) remains unchanged compared with the 2nd subplot in Fig. \ref{pump2model}, with only a black curve denoting the pipe (\textit{0}) characteristic newly added in the 1st subplot in Fig. \ref{pmpicros}.
+It is evident that when the pump is running in the high-speed level, its H-q curve (red solid) does not match with the pipe.
+That is to say, if we built a constant (high) speed pump model, there would be no feasible solution in this case.
+However, the black curve and the low-speed H-q (green solid) do intersect, indicating the existence of a normal working condition.
+Therefore, a variable-speed pump could provide more flexibility for the operation of WSN.
+Besides, there is indeed another way to avoid infeasibility: to set the head loss of the RDV r0 to a proper value (e.g., 10m).
+Then the new H-q curve of the branch is changed to what the 2nd subplot exhibits.
+Although being feasible at the high-speed level, the power consumption rises to about 550kW, much higher than that at the lower speed (about 250kW).
+This is due to the high energy loss of using RDVs.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height =1.1in]{g/casePM_cmp.pdf}
+    \caption{H-q-P curves of the pump and: H-q curve of the pipe (L), H-q curve of the (pipe+RDV) branch (R)}
+    \label{pmpicros}
+\end{figure}
+
+WaterNet-only: cost 14098.9 yuan, EHonly: cost 7667.8 yuan, co-opt:12348.9 yuan, save 43.3\%.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height =1.1in]{g/smallCaseBar.pdf}
+    \caption{small Case}
+    \label{smallCaseBar}
+\end{figure}
+
+
+
+% \appendices
+% \section*{Acknowledgment}
+% The preferred spelling of the word ``acknowledgment'' in American English is 
+% \section{Reference Examples}
+% here are some reference examples.
+
+% \begin{thebibliography}{00}
+
+% \bibitem{b1} G. O. Young, ``Synthetic structure of industrial plastics,'' in \emph{Plastics,} 2\textsuperscript{nd} ed., vol. 3, J. Peters, Ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15--64.
+
+% \bibitem{b2} W.-K. Chen, \emph{Linear Networks and Systems.} Belmont, CA, USA: Wadsworth, 1993, pp. 123--135.
+
+% \bibitem{b3} J. U. Duncombe, ``Infrared navigation---Part I: An assessment of feasibility,'' \emph{IEEE Trans. Electron Devices}, vol. ED-11, no. 1, pp. 34--39, Jan. 1959, 10.1109/TED.2016.2628402.
+
+% \bibitem{b4} E. P. Wigner, ``Theory of traveling-wave optical laser,'' \emph{Phys. Rev}., vol. 134, pp. A635--A646, Dec. 1965.
+
+% \bibitem{b5} E. H. Miller, ``A note on reflector arrays,'' \emph{IEEE Trans. Antennas Propagat}., to be published.
+
+% \bibitem{b6} E. E. Reber, R. L. Michell, and C. J. Carter, ``Oxygen absorption in the earth's atmosphere,'' Aerospace Corp., Los Angeles, CA, USA, Tech. Rep. TR-0200 (4230-46)-3, Nov. 1988.
+
+% \bibitem{b7} J. H. Davis and J. R. Cogdell, ``Calibration program for the 16-foot antenna,'' Elect. Eng. Res. Lab., Univ. Texas, Austin, TX, USA, Tech. Memo. NGL-006-69-3, Nov. 15, 1987.
+
+% \bibitem{b8} \emph{Transmission Systems for Communications}, 3\textsuperscript{rd} ed., Western Electric Co., Winston-Salem, NC, USA, 1985, pp. 44--60.
+
+% \bibitem{b9} \emph{Motorola Semiconductor Data Manual}, Motorola Semiconductor Products Inc., Phoenix, AZ, USA, 1989.
+
+% \bibitem{b10} G. O. Young, ``Synthetic structure of industrial
+% plastics,'' in Plastics, vol. 3, Polymers of Hexadromicon, J. Peters,
+% Ed., 2\textsuperscript{nd} ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15-64.
+% [Online]. Available:
+% \underline{http://www.bookref.com}.
+
+% \bibitem{b11} \emph{The Founders' Constitution}, Philip B. Kurland
+% and Ralph Lerner, eds., Chicago, IL, USA: Univ. Chicago Press, 1987.
+% [Online]. Available: \underline{http://press-pubs.uchicago.edu/founders/}
+
+% \bibitem{b12} The Terahertz Wave eBook. ZOmega Terahertz Corp., 2014.
+% [Online]. Available:
+% \underline{http://dl.z-thz.com/eBook/zomega\_ebook\_pdf\_1206\_sr.pdf}. Accessed on: May 19, 2014.
+
+% \bibitem{b13} Philip B. Kurland and Ralph Lerner, eds., \emph{The
+% Founders' Constitution.} Chicago, IL, USA: Univ. of Chicago Press,
+% 1987, Accessed on: Feb. 28, 2010, [Online] Available:
+% \underline{http://press-pubs.uchicago.edu/founders/}
+
+% \bibitem{b14} J. S. Turner, ``New directions in communications,'' \emph{IEEE J. Sel. Areas Commun}., vol. 13, no. 1, pp. 11-23, Jan. 1995.
+
+% \bibitem{b15} W. P. Risk, G. S. Kino, and H. J. Shaw, ``Fiber-optic frequency shifter using a surface acoustic wave incident at an oblique angle,'' \emph{Opt. Lett.}, vol. 11, no. 2, pp. 115--117, Feb. 1986.
+
+% \bibitem{b16} P. Kopyt \emph{et al., ``}Electric properties of graphene-based conductive layers from DC up to terahertz range,'' \emph{IEEE THz Sci. Technol.,} to be published. DOI: 10.1109/TTHZ.2016.2544142.
+
+% \bibitem{b17} PROCESS Corporation, Boston, MA, USA. Intranets:
+% Internet technologies deployed behind the firewall for corporate
+% productivity. Presented at INET96 Annual Meeting. [Online].
+% Available: \underline{http://home.process.com/Intranets/wp2.htp}
+
+% \bibitem{b18} R. J. Hijmans and J. van Etten, ``Raster: Geographic analysis and modeling with raster data,'' R Package Version 2.0-12, Jan. 12, 2012. [Online]. Available: \underline {http://CRAN.R-project.org/package=raster} 
+
+% \bibitem{b19} Teralyzer. Lytera UG, Kirchhain, Germany [Online].
+% Available:
+% \underline{http://www.lytera.de/Terahertz\_THz\_Spectroscopy.php?id=home}, Accessed on: Jun. 5, 2014
+
+% \bibitem{b20} U.S. House. 102\textsuperscript{nd} Congress, 1\textsuperscript{st} Session. (1991, Jan. 11). \emph{H. Con. Res. 1, Sense of the Congress on Approval of}  \emph{Military Action}. [Online]. Available: LEXIS Library: GENFED File: BILLS
+
+% \bibitem{b21} Musical toothbrush with mirror, by L.M.R. Brooks. (1992, May 19). Patent D 326 189 [Online]. Available: NEXIS Library: LEXPAT File: DES
+
+% \bibitem{b22} D. B. Payne and J. R. Stern, ``Wavelength-switched pas- sively coupled single-mode optical network,'' in \emph{Proc. IOOC-ECOC,} Boston, MA, USA, 1985, pp. 585--590.
+
+% \bibitem{b23} D. Ebehard and E. Voges, ``Digital single sideband detection for interferometric sensors,'' presented at the \emph{2\textsuperscript{nd} Int. Conf. Optical Fiber Sensors,} Stuttgart, Germany, Jan. 2-5, 1984.
+
+% \bibitem{b24} G. Brandli and M. Dick, ``Alternating current fed power supply,'' U.S. Patent 4 084 217, Nov. 4, 1978.
+
+% \bibitem{b25} J. O. Williams, ``Narrow-band analyzer,'' Ph.D. dissertation, Dept. Elect. Eng., Harvard Univ., Cambridge, MA, USA, 1993.
+
+% \bibitem{b26} N. Kawasaki, ``Parametric study of thermal and chemical nonequilibrium nozzle flow,'' M.S. thesis, Dept. Electron. Eng., Osaka Univ., Osaka, Japan, 1993.
+
+% \bibitem{b27} A. Harrison, private communication, May 1995.
+
+% \bibitem{b28} B. Smith, ``An approach to graphs of linear forms,'' unpublished.
+
+% \bibitem{b29} A. Brahms, ``Representation error for real numbers in binary computer arithmetic,'' IEEE Computer Group Repository, Paper R-67-85.
+
+% \bibitem{b30} IEEE Criteria for Class IE Electric Systems, IEEE Standard 308, 1969.
+
+% \bibitem{b31} Letter Symbols for Quantities, ANSI Standard Y10.5-1968.
+
+% \bibitem{b32} R. Fardel, M. Nagel, F. Nuesch, T. Lippert, and A. Wokaun, ``Fabrication of organic light emitting diode pixels by laser-assisted forward transfer,'' \emph{Appl. Phys. Lett.}, vol. 91, no. 6, Aug. 2007, Art. no. 061103.~
+
+% \bibitem{b33} J. Zhang and N. Tansu, ``Optical gain and laser characteristics of InGaN quantum wells on ternary InGaN substrates,'' \emph{IEEE Photon. J.}, vol. 5, no. 2, Apr. 2013, Art. no. 2600111
+
+% \bibitem{b34} S. Azodolmolky~\emph{et al.}, Experimental demonstration of an impairment aware network planning and operation tool for transparent/translucent optical networks,''~\emph{J. Lightw. Technol.}, vol. 29, no. 4, pp. 439--448, Sep. 2011.
+
+% \end{thebibliography}
+
+% \bibliographystyle{IEEEtran}
+\bibliographystyle{plain}
+\bibliography{new}
+
+
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a1.eps}}]{First A. Author} (M'76--SM'81--F'87) and all authors may include 
+% biographies. Biographies are often not included in conference-related
+% papers. This author became a Member (M) of IEEE in 1976, a Senior
+% Member (SM) in 1981, and a Fellow (F) in 1987. The first paragraph may
+% contain a place and/or date of birth (list place, then date). Next,
+% the author's educational background is listed. The degrees should be
+% listed with type of degree in what field, which institution, city,
+% state, and country, and year the degree was earned. The author's major
+% field of study should be lower-cased. 
+
+% The second paragraph uses the pronoun of the person (he or she) and not the 
+% author's last name. It lists military and work experience, including summer 
+% and fellowship jobs. Job titles are capitalized. The current job must have a 
+% location; previous positions may be listed 
+% without one. Information concerning previous publications may be included. 
+% Try not to list more than three books or published articles. The format for 
+% listing publishers of a book within the biography is: title of book 
+% (publisher name, year) similar to a reference. Current and previous research 
+% interests end the paragraph. The third paragraph begins with the author's 
+% title and last name (e.g., Dr.\ Smith, Prof.\ Jones, Mr.\ Kajor, Ms.\ Hunter). 
+% List any memberships in professional societies other than the IEEE. Finally, 
+% list any awards and work for IEEE committees and publications. If a 
+% photograph is provided, it should be of good quality, and 
+% professional-looking. Following are two examples of an author's biography.
+% \end{IEEEbiography}
+
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a2.eps}}]{Second B. Author} was born in Greenwich Village, New York, NY, USA in 
+% 1977. He received the B.S. and M.S. degrees in aerospace engineering from 
+% the University of Virginia, Charlottesville, in 2001 and the Ph.D. degree in 
+% mechanical engineering from Drexel University, Philadelphia, PA, in 2008.
+
+% From 2001 to 2004, he was a Research Assistant with the Princeton Plasma 
+% Physics Laboratory. Since 2009, he has been an Assistant Professor with the 
+% Mechanical Engineering Department, Texas A{\&}M University, College Station. 
+% He is the author of three books, more than 150 articles, and more than 70 
+% inventions. His research interests include high-pressure and high-density 
+% nonthermal plasma discharge processes and applications, microscale plasma 
+% discharges, discharges in liquids, spectroscopic diagnostics, plasma 
+% propulsion, and innovation plasma applications. He is an Associate Editor of 
+% the journal \emph{Earth, Moon, Planets}, and holds two patents. 
+
+% Dr. Author was a recipient of the International Association of Geomagnetism 
+% and Aeronomy Young Scientist Award for Excellence in 2008, and the IEEE 
+% Electromagnetic Compatibility Society Best Symposium Paper Award in 2011. 
+% \end{IEEEbiography}
+
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{a3.eps}}]{Third C. Author, Jr.} (M'87) received the B.S. degree in mechanical 
+% engineering from National Chung Cheng University, Chiayi, Taiwan, in 2004 
+% and the M.S. degree in mechanical engineering from National Tsing Hua 
+% University, Hsinchu, Taiwan, in 2006. He is currently pursuing the Ph.D. 
+% degree in mechanical engineering at Texas A{\&}M University, College 
+% Station, TX, USA.
+
+% From 2008 to 2009, he was a Research Assistant with the Institute of 
+% Physics, Academia Sinica, Tapei, Taiwan. His research interest includes the 
+% development of surface processing and biological/medical treatment 
+% techniques using nonthermal atmospheric pressure plasmas, fundamental study 
+% of plasma sources, and fabrication of micro- or nanostructured surfaces. 
+
+% Mr. Author's awards and honors include the Frew Fellowship (Australian 
+% Academy of Science), the I. I. Rabi Prize (APS), the European Frequency and 
+% Time Forum Award, the Carl Zeiss Research Award, the William F. Meggers 
+% Award and the Adolph Lomb Medal (OSA).
+% \end{IEEEbiography}
+
+
+
+\end{document}
